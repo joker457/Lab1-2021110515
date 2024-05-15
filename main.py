@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from collections import defaultdict
 import random
+#C4
 #B1
 def process_text_file(file_path):
     # 读取文本文件
