@@ -3,7 +3,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from collections import defaultdict
 import random
-
+#C4
+#B1
 def process_text_file(file_path):
     # 读取文本文件
     with open(file_path, 'r') as file:
@@ -36,7 +37,7 @@ def construct_graph(text):
     return graph
 
 def draw_graph(graph, path=None):
-    G = nx.DiGraph()
+    G = nx.DiGraph() #使用 networkx 库创建一个空的有向图 DiGraph 对象。
     for node, neighbors in graph.items():
         for neighbor, weight in neighbors.items():
             G.add_edge(node, neighbor, weight=weight)
@@ -148,7 +149,8 @@ def main():
     graph = construct_graph(processed_text)
 
     while True:
-        print("\nSelect an option:")
+        print("------------------------------------------------")
+        print("Select an option:")
         print("1. Draw directed graph")
         print("2. Find bridge words")
         print("3. Insert bridge words into new text")
