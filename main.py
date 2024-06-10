@@ -1,13 +1,26 @@
 import re
-import networkx as nx
-import matplotlib.pyplot as plt
 from collections import defaultdict
 import random
-#C4
-#B1
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
 def process_text_file(file_path):
-    # 读取文本文件
-    with open(file_path, 'r') as file:
+    """
+    读取文本文件并处理内容。
+
+    该函数读取指定路径的文本文件，将所有换行符和回车符替换为空格，
+    使用正则表达式将非字母字符替换为空格，然后将多个连续的空格替换为单个空格，
+    最后将文本转换为小写。
+
+    Args:
+        file_path (str): 文本文件的路径。
+
+    Returns:
+        str: 处理后的文本字符串。
+    """
+    # 读取文本文件，显式指定编码
+    with open(file_path, 'r', encoding='utf-8') as file:
         text = file.read()
 
     # 用空格替换换行符和回车符
@@ -24,6 +37,7 @@ def process_text_file(file_path):
 
     return text
 
+
 def construct_graph(text):
     graph = defaultdict(dict)
     words = text.split()
@@ -36,6 +50,7 @@ def construct_graph(text):
             graph[word1][word2] += 1
     return graph
 
+
 def draw_graph(graph, path=None):
     G = nx.DiGraph() #使用 networkx 库创建一个空的有向图 DiGraph 对象。
     for node, neighbors in graph.items():
@@ -46,13 +61,16 @@ def draw_graph(graph, path=None):
     if path:
         path_edges = [(path[n], path[n + 1]) for n in range(len(path) - 1)]
         edge_colors = ['red' if edge in path_edges else 'black' for edge in G.edges()]
-        nx.draw(G, pos, with_labels=True, node_size=1000, node_color="skyblue", font_size=10, font_weight="bold", arrows=True, edge_color=edge_colors)
+        nx.draw(G, pos, with_labels=True, node_size=1000, node_color="skyblue", 
+                font_size=10, font_weight="bold", arrows=True, edge_color=edge_colors)
     else:
-        nx.draw(G, pos, with_labels=True, node_size=1000, node_color="skyblue", font_size=10, font_weight="bold", arrows=True)
+        nx.draw(G, pos, with_labels=True, node_size=1000, node_color="skyblue", 
+                font_size=10, font_weight="bold", arrows=True)
     
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
     plt.show()
+
 
 def find_bridge_words(graph, word1, word2):
     if word1 not in graph or word2 not in graph:
@@ -64,6 +82,7 @@ def find_bridge_words(graph, word1, word2):
             bridge_words.append(word)
 
     return bridge_words
+
 
 def insert_bridge_words(new_text, graph):
     words = new_text.split()
@@ -77,6 +96,7 @@ def insert_bridge_words(new_text, graph):
             result_text.append(bridge_words[0])  # 插入第一个找到的桥接词
     result_text.append(words[-1])
     return ' '.join(result_text)
+
 
 def find_shortest_path(graph, start_word, end_word=None):
     G = nx.DiGraph()
@@ -104,6 +124,7 @@ def find_shortest_path(graph, start_word, end_word=None):
         for target in paths:
             if target != start_word:
                 print("Shortest path from {} to {} is: {} with length {}".format(start_word, target, '→'.join(paths[target]), lengths[target]))
+
 
 def random_traversal(graph):
     G = nx.DiGraph()
@@ -142,6 +163,7 @@ def random_traversal(graph):
     # 将遍历路径写入文件
     with open('traversal_path.txt', 'w') as file:
         file.write(traversal_text)
+
 
 def main():
     file_path = 'input.txt'  # 替换为你的文件路径
@@ -188,6 +210,7 @@ def main():
             break
         else:
             print("Invalid choice. Please enter a valid option.")
+
 
 if __name__ == "__main__":
     main()
